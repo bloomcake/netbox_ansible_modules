@@ -11,6 +11,7 @@ __metaclass__ = type
 # Import necessary packages
 import traceback
 import re
+import os
 import json
 from itertools import chain
 
@@ -808,6 +809,7 @@ class NetboxModule(object):
         try:
             session = requests.Session()
             session.verify = ssl_verify
+            session.headers = os.getenv("NETBOX_HEADERS", None)
             if cert:
                 session.cert = tuple(i for i in cert)
             nb = pynetbox.api(url, token=token)
